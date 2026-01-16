@@ -32,6 +32,4 @@ public class knapsack_bottomup {
         System.out.println(knapsack(wt, val, W));
     }
 }
- {
-    
-}
+
