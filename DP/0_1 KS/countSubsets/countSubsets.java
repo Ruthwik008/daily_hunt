@@ -9,7 +9,7 @@ class Solution {
         if (arr[n - 1] > sum)
             return countSubsets(arr, n - 1, sum);
 
-        return countSubsets(arr, n - 1, sum - arr[n - 1]) +
+        return countSubsets(arr, n - 1, sum - arr[n - 1]) +   // include the last element + exclude the last element what happeends if we include and if we dont include 
                countSubsets(arr, n - 1, sum);
     }
 
