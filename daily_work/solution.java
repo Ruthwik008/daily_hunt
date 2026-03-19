@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class Main {
+public class solution {
 
     // ----------------Recursive ----------------
     public static int climbRecursive(int n) {
