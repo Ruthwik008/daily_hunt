@@ -1,0 +1,58 @@
+
+import java.util.Arrays;
+
+public class Main {
+
+    public static int countSubsetSum(
+        int[] arr, int n, int sum, int[][] dp
+    ) {
+        if (n == 0) {
+            return sum == 0 ? 1 : 0;
+        }
+
+        if (dp[n][sum] != -1) {
+            return dp[n][sum];
+        }
+
+        int exclude = countSubsetSum(arr, n - 1, sum, dp);
+
+        int include = 0;
+        if (arr[n - 1] <= sum) {
+            include = countSubsetSum(
+                arr, n - 1, sum - arr[n - 1], dp
+            );
+        }
+
+        return dp[n][sum] = include + exclude;
+    }
+
+    public static int countPartitions(int[] arr, int diff) {
+        int sumOfArray = 0;
+
+        for (int num : arr) {
+            sumOfArray += num;
+        }
+
+        if (Math.abs(diff) > sumOfArray ||
+            (diff + sumOfArray) % 2 != 0) {
+            return 0;
+        }
+
+        int sum = (diff + sumOfArray) / 2;
+
+        int[][] dp = new int[arr.length + 1][sum + 1];
+
+        for (int[] row : dp) {
+            Arrays.fill(row, -1);
+        }
+
+        return countSubsetSum(arr, arr.length, sum, dp);
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 1, 2, 3};
+        int diff = 1;
+
+        System.out.println(countPartitions(arr, diff));
+    }
+}

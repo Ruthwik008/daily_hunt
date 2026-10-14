@@ -1,0 +1,44 @@
+
+public class Main {
+
+    public static int countSubsetSum(int[] arr, int n, int sum) {
+        if (n == 0) {
+            return sum == 0 ? 1 : 0;
+        }
+
+        int exclude = countSubsetSum(arr, n - 1, sum);
+
+        int include = 0;
+        if (arr[n - 1] <= sum) {
+            include = countSubsetSum(
+                arr, n - 1, sum - arr[n - 1]
+            );
+        }
+
+        return include + exclude;
+    }
+
+    public static int countPartitions(int[] arr, int diff) {
+        int sumOfArray = 0;
+
+        for (int num : arr) {
+            sumOfArray += num;
+        }
+
+        if (Math.abs(diff) > sumOfArray ||
+            (diff + sumOfArray) % 2 != 0) {
+            return 0;
+        }
+
+        int sum = (diff + sumOfArray) / 2;
+
+        return countSubsetSum(arr, arr.length, sum);
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 1, 2, 3};
+        int diff = 1;
+
+        System.out.println(countPartitions(arr, diff));
+    }
+}
