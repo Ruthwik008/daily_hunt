@@ -1,0 +1,42 @@
+
+class Main {
+
+    public static int countSubsetSum(int[] arr, int n, int sum) {
+        if (n == 0) {
+            return sum == 0 ? 1 : 0;
+        }
+
+        int exclude = countSubsetSum(arr, n - 1, sum);
+
+        int include = 0;
+        if (arr[n - 1] <= sum) {
+            include = countSubsetSum(
+                arr, n - 1, sum - arr[n - 1]
+            );
+        }
+
+        return include + exclude;
+    }
+
+    public static int findTargetSumWays(int[] arr, int target) {
+        int total = 0;
+        for (int num : arr) {
+            total += num;
+        }
+
+        if (Math.abs(target) > total ||
+            (total + target) % 2 != 0) {
+            return 0;
+        }
+
+        int sum = (total + target) / 2;
+        return countSubsetSum(arr, arr.length, sum);
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 1, 1, 1, 1};
+        int target = 3;
+
+        System.out.println(findTargetSumWays(arr, target));
+    }
+}

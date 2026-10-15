@@ -1,0 +1,56 @@
+
+import java.util.Arrays;
+
+class Main {
+
+    public static int countSubsetSum(
+        int[] arr, int n, int sum, int[][] dp
+    ) {
+        if (n == 0) {
+            return sum == 0 ? 1 : 0;
+        }
+
+        if (dp[n][sum] != -1) {
+            return dp[n][sum];
+        }
+
+        int exclude = countSubsetSum(arr, n - 1, sum, dp);
+
+        int include = 0;
+        if (arr[n - 1] <= sum) {
+            include = countSubsetSum(
+                arr, n - 1, sum - arr[n - 1], dp
+            );
+        }
+
+        return dp[n][sum] = include + exclude;
+    }
+
+    public static int findTargetSumWays(int[] arr, int target) {
+        int total = 0;
+        for (int num : arr) {
+            total += num;
+        }
+
+        if (Math.abs(target) > total ||
+            (total + target) % 2 != 0) {
+            return 0;
+        }
+
+        int sum = (total + target) / 2;
+        int[][] dp = new int[arr.length + 1][sum + 1];
+
+        for (int[] row : dp) {
+            Arrays.fill(row, -1);
+        }
+
+        return countSubsetSum(arr, arr.length, sum, dp);
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 1, 1, 1, 1};
+        int target = 3;
+
+        System.out.println(findTargetSumWays(arr, target));
+    }
+}
